@@ -4,6 +4,7 @@
 	"license"     : "MIT",
 	"author"      : "Vasiliy Isaichkin <vasiliy@isaichkin.ru>",
 	"repository"  : "https://github.com/osmiumjs/iapi-interconnect",
+	"version"     : "0.1.0",
 	"dependencies": {
 		"@osmium/iapi-ecdh"      : "^0.2.1",
 		"osmium-iapi"            : "^0.6.0",

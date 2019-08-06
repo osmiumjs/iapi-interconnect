@@ -19,6 +19,7 @@ class IApiInterConnect {
 		this.clients = clients;
 
 		this.inited = false;
+		this.remoteNameChar = '@';
 	}
 
 	async _initLocalServer() {
@@ -57,9 +58,9 @@ class IApiInterConnect {
 				return packet;
 			}
 			const targetName = this.getTargetName(packet.name);
-
 			if (!this.apis[targetName]) return null;
-			this.apis[targetName].emit(eventName, [packet.metadata, ...packet.args]);
+
+			this.server.on(packet.name, (...args) => this.apis[targetName].emit(eventName, packet.metadata, ...args));
 		});
 	}
 
@@ -73,17 +74,18 @@ class IApiInterConnect {
 		this.inited = true;
 	}
 
-	getTargetName(packetName) {
-		const match = packetName.match(/@([a-z]+) .*/);
-		return match && match[1] ? match[1] : false;
+	getEventName(packetName) {
+		return this.getTargetName(packetName) ? packetName.split(' ').splice(1).join(' ') : packetName;
 	}
 
-	getEventName(packetName) {
-		return packetName.replace(/(@[a-z]+) .*/, (match, p1) => match.substr(p1.length)).trim();
+	getTargetName(packetName) {
+		const ec = packetName.split(' ')[0];
+		return ec[0] === this.remoteNameChar ? ec.substr(1) : false;
 	}
 
 	isMe(packetName) {
-		return this.getTargetName(packetName) === this.serverName;
+		let tName = this.getTargetName(packetName);
+		return tName ? tName === this.serverName : true;
 	}
 }
 
