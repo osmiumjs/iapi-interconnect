@@ -1,0 +1,15 @@
+{
+	"name"        : "@osmium/iapi-interconnect",
+	"description" : "Osmium iApi InterConnect",
+	"license"     : "MIT",
+	"author"      : "Vasiliy Isaichkin <vasiliy@isaichkin.ru>",
+	"repository"  : "https://github.com/osmiumjs/iapi-interconnect",
+	"dependencies": {
+		"@osmium/iapi-ecdh"      : "^0.2.1",
+		"osmium-iapi"            : "^0.6.0",
+		"osmium-socket.io-parser": "^0.3.0",
+		"osmium-tools"           : "^0.2.5",
+		"socket.io"              : "^2.2.0",
+		"socket.io-client"       : "^2.2.0"
+	}
+}
