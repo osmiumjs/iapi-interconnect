@@ -29,11 +29,12 @@ class IApiInterConnect {
 	}
 
 	async _startOutgoingConnects() {
-		this.apis = await oTools.iterate(this.interconnects, async (ic, name, iter) => {
+		this.apis = {};
+		oTools.iterateParallel(this.interconnects, async (ic, name) => {
 			const ioIApiSocket = ioClient.connect(`http://${ic.host}:${ic.port}`, {parser, forceNew: true});
 			const iApi = new IApiClient(ioIApiSocket, {keySalt: this.serverOpt.keySalt}, this.serverName, new IApiECDHAuthProvider(this.serverOpt.privateKey, this.clients));
-			console.log(`Connect to ${name}`);
 			await iApi.ready();
+			console.log(`Connect ${this.serverName} to ${name} IS OK`);
 
 			iApi.registerMiddlewareOutBefore((packet, socket, before) => {
 				if (!packet || !packet.args || !packet.args[0] || !before) return packet;
@@ -42,9 +43,8 @@ class IApiInterConnect {
 				return packet;
 			});
 
-			iter.key(name);
-			return iApi;
-		}, {});
+			this.apis[name] = iApi;
+		});
 	}
 
 	async _startProxyOut() {
