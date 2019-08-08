@@ -81,13 +81,14 @@ class IApiInterConnect extends Events {
 			if (!packet || !before) return packet;
 
 			const eventName = this.getEventName(packet.name);
-			if (this.server.exists(packet.name, false)) {
+			if (this.server.exists(packet.name, false)) { // @todo: check logic for local
 				if (this.isMe(packet.name)) await this.emit(this.events.LOCAL_MESSAGE, eventName, packet, socket, this);
 				return packet;
 			}
 
 			if (this.isMe(packet.name)) {
 				packet.name = eventName;
+				await this.emit(this.events.LOCAL_MESSAGE, eventName, packet, socket, this)
 				return packet;
 			}
 			const targetName = this.getTargetName(packet.name);
