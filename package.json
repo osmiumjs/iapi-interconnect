@@ -4,12 +4,12 @@
 	"license"     : "MIT",
 	"author"      : "Vasiliy Isaichkin <vasiliy@isaichkin.ru>",
 	"repository"  : "https://github.com/osmiumjs/iapi-interconnect",
-	"version"     : "0.2.0",
+	"version"     : "0.2.1",
 	"dependencies": {
 		"@osmium/iapi-ecdh"      : "^0.3.0",
 		"osmium-events"          : "^0.3.11",
-		"osmium-iapi"            : "^0.7.1",
-		"osmium-socket.io-parser": "^0.3.0",
+		"osmium-iapi"            : "^0.7.3",
+		"osmium-socket.io-parser": "^0.3.1",
 		"osmium-tools"           : "^0.2.5",
 		"socket.io"              : "^2.2.0",
 		"socket.io-client"       : "^2.2.0"
