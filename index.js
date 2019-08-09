@@ -50,6 +50,7 @@ class IApiInterConnect extends Events {
 		this.apis = {};
 		oTools.iterateParallel(this.interconnects, async (ic, name) => {
 			const _connect = async () => {
+				if (name === this.serverName) return;
 				const ioIApiSocket = ioClient.connect(`http://${ic.host}:${ic.port}`, {parser, forceNew: true});
 				const iApi = new IApiClient(ioIApiSocket, {keySalt: this.serverOpt.keySalt}, this.serverName, new IApiECDHAuthProvider(this.serverOpt.privateKey, this.clients));
 				await this.emit(this.events.OUTGOING_CONNECT_START, iApi, ioIApiSocket, name, this);
@@ -88,7 +89,7 @@ class IApiInterConnect extends Events {
 
 			if (this.isMe(packet.name)) {
 				packet.name = eventName;
-				await this.emit(this.events.LOCAL_MESSAGE, eventName, packet, socket, this)
+				await this.emit(this.events.LOCAL_MESSAGE, eventName, packet, socket, this);
 				return packet;
 			}
 			const targetName = this.getTargetName(packet.name);
